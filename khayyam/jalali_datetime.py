@@ -5,7 +5,7 @@ from khayyam.algorithms import get_gregorian_date_from_julian_day
 import khayyam
 from khayyam.formatting import JalaliDatetimeFormatter, AM_PM, AM_PM_ASCII
 from khayyam.helpers import force_encoded_string_output
-
+from persiantools.jdatetime import JalaliDateTime
 
 __author__ = 'vahid'
 
@@ -269,9 +269,9 @@ class JalaliDatetime(khayyam.JalaliDate):
         :return: the new :py:class:`datetime.datetime` instance representing the current date and time in gregorian calendar.
         :rtype: :py:class:`datetime.datetime`
         """
-        arr = get_gregorian_date_from_julian_day(self.tojulianday())
-        return datetime(int(arr[0]), int(arr[1]), int(arr[2]), self.hour, self.minute, self.second, self.microsecond,
-                        self.tzinfo)
+        jalali_date = JalaliDateTime(self.year, self.month, self.day, self.hour, self.minute, self.second,
+                                     self.microsecond, self.tzinfo)
+        return jalali_date.to_gregorian()
 
     def date(self):
         """
