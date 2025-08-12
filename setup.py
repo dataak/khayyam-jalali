@@ -5,13 +5,13 @@ import sys
 import warnings
 from setuptools import setup, find_packages, Extension
 import traceback
-
+from pathlib import Path
 __author__ = 'vahid'
 
 # reading package version (same way sqlalchemy does)
 with open(os.path.join(os.path.dirname(__file__), 'khayyam', '__init__.py')) as v_file:
     package_version = re.compile(r".*__version__ = '(.*?)'", re.S).match(v_file.read()).group(1)
-
+requirements = Path('requirement.txt').read_text().splitlines()
 if sys.version_info >= (3, ):
     def readme(fn):
         with open(fn, encoding='UTF-8') as f:
@@ -23,10 +23,10 @@ else:
 
 
 setup_args = dict(
-    name="Khayyam",
+    name="Khayyam-jalali",
     version=package_version,
-    author="Vahid Mardani",
-    author_email="vahid.mardani@gmail.com",
+    author=["Vahid Mardani","sayeh kargari"],
+    author_email=["vahid.mardani@gmail.com","sayeh.kargari31@gmail.com"],
     url="http://khayyam.dobisel.com",
     description="Persian Date & Time library (aka: Jalali Calendar) with timezone, DST"
                 "(daylight-saving), full formatting & parsing support for python 2 & 3 including c extention",
@@ -34,6 +34,7 @@ setup_args = dict(
     keywords="Khayyam persian jalali date time datetime conversion",
     long_description=readme(os.path.join(os.path.dirname(__file__), 'README.rst')),
     license="GPLv3",
+    install_requires=requirements,
     packages=find_packages(),
     test_suite="khayyam.tests",
     tests_require=[
