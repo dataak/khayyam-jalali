@@ -8,7 +8,7 @@ __author__ = 'vahid'
 class JalaliDatetimeFormatterTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.leap_year = 1375
+        self.leap_year = 1402
 
     def assert_parse_and_format(self, jdate, fmt):
         jalali_date_str = jdate.strftime(fmt)

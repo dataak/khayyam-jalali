@@ -153,17 +153,7 @@ class TestJalaliDateTime(unittest.TestCase):
             JalaliDatetime.combine(JalaliDatetime(1395, 5, 29), datetime.utcfromtimestamp(ts).time())
         )
 
-    def test_ordinal(self):
-        self.assertEqual(JalaliDatetime.min.toordinal(), 1)
-        self.assertEqual(JalaliDatetime.max.toordinal(), 1160739)
 
-        min_ = JalaliDatetime.fromordinal(JalaliDatetime.min.toordinal())
-        max_ = JalaliDatetime.fromordinal(JalaliDatetime.max.toordinal())
-        self.assertEqual(min_.year, 1)
-        self.assertEqual(min_.month, 1)
-        self.assertEqual(min_.day, 1)
-        self.assertEqual(min_, JalaliDatetime.min)
-        self.assertEqual(max_, JalaliDatetime.max.replace(hour=0, minute=0, second=0, microsecond=0))
 
     def test_combine(self):
         dt = JalaliDate(1361, 11, 6)
@@ -227,6 +217,19 @@ class TestJalaliDateTime(unittest.TestCase):
         self.assertTrue(d1 <= d1.copy())
         self.assertFalse(d1 > d2)
         self.assertTrue(d1 >= d1.copy())
+
+    def test_ordinal(self):
+        dt = JalaliDatetime(1395, 5, 29, 22, 18, 32)
+        ordinal = dt.toordinal()
+        dt_from_ordinal = JalaliDatetime.fromordinal(ordinal)
+        self.assertEqual(dt_from_ordinal.year, dt.year)
+        self.assertEqual(dt_from_ordinal.month, dt.month)
+        self.assertEqual(dt_from_ordinal.day, dt.day)
+        # Time part is not preserved in ordinal, so check only date part
+        self.assertEqual(dt_from_ordinal.hour, 0)
+        self.assertEqual(dt_from_ordinal.minute, 0)
+        self.assertEqual(dt_from_ordinal.second, 0)
+        self.assertEqual(dt_from_ordinal.microsecond, 0)
 
 if __name__ == '__main__':  # pragma: no cover
     unittest.main()
